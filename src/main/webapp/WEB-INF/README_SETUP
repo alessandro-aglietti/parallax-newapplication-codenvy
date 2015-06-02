@@ -1,0 +1,1 @@
+export PATH=$PATH:/home/utente/codenvy/cli/assembly/target/codenvy-cli-2.10.1-SNAPSHOT/codenvy-cli-2.10.1-SNAPSHOT/bin

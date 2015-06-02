@@ -1,0 +1,1 @@
+{"mixinTypes":[],"builders":{"configs":{},"default":"maven"},"runners":{"configs":{"recommend":{"ram":256,"variables":{},"options":{}}},"default":"system:/java/web/tomcat7"},"description":"https://github.com/thothbot/parallax-newapplication","type":"maven","attributes":{"languageVersion":["1.6"],"language":["java"]}}
