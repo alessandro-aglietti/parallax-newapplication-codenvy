@@ -1,5 +1,12 @@
 package com.codenvy.example.gwt.client;
 
+import thothbot.parallax.core.client.AnimatedScene;
+import thothbot.parallax.core.client.RenderingPanel;
+import thothbot.parallax.core.shared.cameras.PerspectiveCamera;
+import thothbot.parallax.core.shared.geometries.BoxGeometry;
+import thothbot.parallax.core.shared.materials.MeshBasicMaterial;
+import thothbot.parallax.core.shared.math.Color;
+import thothbot.parallax.core.shared.objects.Mesh;
 import com.codenvy.example.gwt.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -13,6 +20,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,16 +33,16 @@ public class GWTEntryPoint implements EntryPoint {
      * The message displayed to the user when the server cannot be reached or
      * returns an error.
      */
-    private static final String SERVER_ERROR = "An error occurred while "
-                                               + "attempting to contact the server. Please check your network "
-                                               + "connection and try again.";
+    private static final String        SERVER_ERROR    = "An error occurred while "
+                                                         + "attempting to contact the server. Please check your network "
+                                                         + "connection and try again.";
 
     /**
      * Create a remote service proxy to talk to the server-side Greeting service.
      */
     private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 
-    private final Messages messages = GWT.create(Messages.class);
+    private final Messages             messages        = GWT.create(Messages.class);
 
     /**
      * This is the entry point method.
@@ -145,5 +153,47 @@ public class GWTEntryPoint implements EntryPoint {
         MyHandler handler = new MyHandler();
         sendButton.addClickHandler(handler);
         nameField.addKeyUpHandler(handler);
+
+        RenderingPanel renderingPanel = new RenderingPanel();
+        // Background color
+        renderingPanel.setBackground(0x111111);
+        renderingPanel.setAnimatedScene(new MyScene());
+
+        RootLayoutPanel.get().add(renderingPanel);
+    }
+
+    class MyScene extends AnimatedScene {
+
+        PerspectiveCamera camera;
+        private Mesh      mesh;
+
+        @Override
+        protected void onStart() {
+            // Loads default camera for the Animation
+            camera = new PerspectiveCamera(70, // field of view
+                                           getRenderer().getAbsoluteAspectRation(), // aspect ratio
+                                           1, // near
+                                           1000 // far
+                     );
+
+            camera.getPosition().setZ(400);
+
+            BoxGeometry geometry = new BoxGeometry(200, 200, 200);
+
+            MeshBasicMaterial material = new MeshBasicMaterial();
+            material.setColor(new Color(0xFF0000));
+            material.setWireframe(true);
+
+            this.mesh = new Mesh(geometry, material);
+            getScene().add(mesh);
+        }
+
+        @Override
+        protected void onUpdate(double duration) {
+            this.mesh.getRotation().addX(0.005);
+            this.mesh.getRotation().addY(0.01);
+
+            getRenderer().render(getScene(), camera);
+        }
     }
 }
