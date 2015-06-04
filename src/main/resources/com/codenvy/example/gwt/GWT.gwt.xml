@@ -16,6 +16,8 @@
 
     <!-- Other module inherits                                      -->
   	 <inherits name="thothbot.parallax.core.Core"/>
+  	 <inherits name="thothbot.parallax.plugins.effects.Effects"/>
+  
   	 <!--   Logging -->
     <inherits name="com.google.gwt.logging.Logging"/>
     <set-property name="gwt.logging.enabled" value="TRUE"/> 

@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import thothbot.parallax.plugins.effects.Stereo;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -43,6 +44,8 @@ public class GWTEntryPoint implements EntryPoint {
     private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 
     private final Messages             messages        = GWT.create(Messages.class);
+  
+  private Stereo stereo;
 
     /**
      * This is the entry point method.
@@ -186,6 +189,9 @@ public class GWTEntryPoint implements EntryPoint {
 
             this.mesh = new Mesh(geometry, material);
             getScene().add(mesh);
+          
+          
+          GWTEntryPoint.this.stereo = new Stereo(getRenderer(), getScene());
         }
 
         @Override
